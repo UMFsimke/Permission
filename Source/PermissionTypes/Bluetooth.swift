@@ -37,6 +37,8 @@ extension Permission {
         case .restricted: return .disabled
         case .denied: return .denied
         case .notDetermined, .authorized: break
+        @unknown default:
+            return .notDetermined
         }
         
         guard UserDefaults.standard.stateBluetoothManagerDetermined else { return .notDetermined }
@@ -46,6 +48,8 @@ extension Permission {
         case .unauthorized: return .denied
         case .poweredOn: return .authorized
         case .resetting, .unknown:
+            return UserDefaults.standard.statusBluetooth ?? .notDetermined
+        @unknown default:
             return UserDefaults.standard.statusBluetooth ?? .notDetermined
         }
     }
